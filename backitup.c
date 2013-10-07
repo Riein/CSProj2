@@ -3,7 +3,8 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string.h>
-#include<pthread.h>
+#include <pthread.h>
+#include <sys/types.h>
 #define maxSize 512
 #define DEBUG 1
 
@@ -23,9 +24,14 @@ void copyFile(struct dirent  *files){
 	strcat(buffer,".bak");
 	dest = fopen(buffer,"w");
 	
-	while( (ch = fgetc(source)) != EOF){
-		fputc(ch,dest);
-		bytes++;
+	struct stat s, d;
+	lstat(files->d_name,&s);
+	lstat(buffer,&d);
+	if(dest == NULL || s.st_mtim.tv_sec < d.st_mtim.tv_sec){
+		while( (ch = fgetc(source)) != EOF){
+			fputc(ch,dest);
+			bytes++;
+		}
 	}
 
 	fclose(source);
