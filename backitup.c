@@ -40,7 +40,7 @@ void printfDbg(const char *format, ...) {
 }
 
 
-/* Returns true if the path is ".", false otherwise.
+/* Returns true if the path is ".", false otherwise. */
 int isPathSelf(const char *path) {
 	if (strcmp(path, ".") == 0) {
 		return 1;
