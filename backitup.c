@@ -163,17 +163,16 @@ void copyFile(const char *srcPath, const char *destPath){
 	int destStatErr = lstat(destPath, &destStat); /* exists when returns 0 */
 	
 	/* If file exists and the source is older than the dest, don't copy. */
-	if (!destStatErr && (srcStat.st_mtim.tv_sec < destStat.st_mtim.tv_sec)) {
+	if (!destStatErr && (srcStat.st_mtim.tv_sec > destStat.st_mtim.tv_sec)) {
 		printf("`%s' is already up to date\n", destPath);
 		return;
 	}
 	
 	/* Print the copy message with warning if overwriting the destination. */
-	printf("Copying `%s' to `%s'", srcPath, destPath);
+	printf("Copying `%s' to `%s\n'", srcPath, destPath);
 	if (!destStatErr) {
-		printf(" (warning, overwriting destination)");
+		printf("WARNING: Overwriting `%s'\n", destPath);
 	}
-	printf("\n");
 
 	/* Actually do the file copying. */
 	FILE *src = fopen(srcPath, "r");
