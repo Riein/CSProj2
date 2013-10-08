@@ -156,7 +156,7 @@ int fileCount(const char *path){
 
 
 /*Method copyFile*/
-void copyFile(const char *srcPath, const char *destPath){
+void copyFile(const char *srcPath, const char *destPath, Mode mode){
 	/* Compare modification times of src and dest, only copy if src is newer. */ 
 	struct stat srcStat, destStat;
 	lstat(srcPath, &srcStat);
@@ -169,7 +169,12 @@ void copyFile(const char *srcPath, const char *destPath){
 	}
 	
 	/* Print the copy message with warning if overwriting the destination. */
-	printf("Copying `%s' to `%s'\n", srcPath, destPath);
+	if (mode == M_BACKUP) {
+		printf("Backing up `%s' to `%s'\n", srcPath, destPath);
+	} else if (mode == M_RESTORE) {
+		printf("Restoring `%s' to `%s'\n", srcPath, destPath);
+	}
+
 	if (!destStatErr) {
 		printf("WARNING: Overwriting `%s'\n", destPath);
 	}
@@ -199,7 +204,7 @@ void copyFile(const char *srcPath, const char *destPath){
 /* Back up the file at the given path. */
 void backup(char *path) {
 	char *destPath = buildBakPath(path, 0);
-	copyFile(path, destPath);
+	copyFile(path, destPath, M_BACKUP);
 	free(destPath);
 	free(path);
 }
@@ -208,7 +213,7 @@ void backup(char *path) {
 /* Restore the file at the given path. */
 void restore(char *path) {
 	char *destPath = buildResPath(path, 0);
-	copyFile(path, destPath);
+	copyFile(path, destPath, M_RESTORE);
 	free(destPath);
 	free(path);
 }
