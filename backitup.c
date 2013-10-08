@@ -169,7 +169,7 @@ void copyFile(const char *srcPath, const char *destPath){
 	}
 	
 	/* Print the copy message with warning if overwriting the destination. */
-	printf("Copying `%s' to `%s\n'", srcPath, destPath);
+	printf("Copying `%s' to `%s'\n", srcPath, destPath);
 	if (!destStatErr) {
 		printf("WARNING: Overwriting `%s'\n", destPath);
 	}
