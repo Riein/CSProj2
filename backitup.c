@@ -1,3 +1,9 @@
+/*
+ * BackItUp!
+ * CS460 Programming Assignment 2
+ * Corey Amoruso, Michael Swiger, Sasha Demyanik
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
